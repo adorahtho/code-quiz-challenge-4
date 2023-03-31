@@ -16,8 +16,8 @@ This is a timed quiz containing 5 questions. If user selects incorrect answer, t
 ## Visuals
 
 The following images show how the quiz looks like. 
-![](../code-quiz-challenge-4/assets/images/coding-quiz-ss1.png)
-![](../code-quiz-challenge-4/assets/images/coding-quiz-ss2.png)
+![Starting page of quiz.](https://github.com/thoak90codes/code-quiz-challenge-4/blob/main/assets/images/coding-quiz-ss1.png)
+![Quiz questions.](https://github.com/thoak90codes/code-quiz-challenge-4/blob/main/assets/images/coding-quiz-ss2.png)
 
 ## Setup/Installation Requirements
 
