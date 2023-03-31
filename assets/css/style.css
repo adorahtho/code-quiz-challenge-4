@@ -27,12 +27,11 @@ header, nav {
   height: 30px;
 }
 
-#high-scores {
-  background-color: white;
+.view-high-scores {
   font-weight: bold;
   border-radius: 15px;
   width: 150px;
-  padding-top: 5px;
+  height: 30px;
 }
 
 #timer {
@@ -79,7 +78,7 @@ main {
   font-size: 18px;
 }
 
-.all-options:hover {
+button:hover {
   cursor: pointer;
   color: rgb(241, 187, 214);
   font-weight: bold;
@@ -101,7 +100,16 @@ main {
   width: 120px;
   height: 45px;
   margin: auto;
+  padding-top: 8px;
   font-size: 20px;
   border-radius: 15px;
   border: 2px solid black;
+}
+
+#start-button:hover {
+  cursor: pointer;
+  color: rgb(241, 187, 214);
+  font-weight: bold;
+  background-color: rgb(60, 16, 118);
+  border: solid black;
 }

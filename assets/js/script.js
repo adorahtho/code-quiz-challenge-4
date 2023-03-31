@@ -8,7 +8,7 @@ var quizBox = document.querySelector(".main-quiz-box")
 var startButton = document.querySelector("#start-button")
 var instructionsP = document.querySelector(".instruction-p")
 
-var timeLeft = 30
+var timeLeft = 60
 
 var questions = [
   {
@@ -52,6 +52,7 @@ function quizQuestions() {
     var button = document.createElement("button")
     button.textContent = option
     button.setAttribute("value", option)
+    button.setAttribute("style", "display: block; margin: auto; padding-left: 100px; padding-right: 100px; font-size: 20px; margin-bottom: 10px")
     button.addEventListener("click", function(event){
       console.log(event.target.value)
       if(event.target.value === currentQuestion.answer){
@@ -62,7 +63,7 @@ function quizQuestions() {
         console.log('incorrect answer')
         timeLeft-= 10
       }
-      
+
       questionCounter++
 
       if(questionCounter < questions.length){
@@ -79,10 +80,12 @@ var playerNameForm = document.createElement("form")
 var playerNameLabel = document.createElement("label")
 var playerNameInput = document.createElement("Input")
 var submitNameBtn = document.createElement("button")
+var viewHighScores = document.createElement("button")
+var playAgainBtn = document.createElement("button")
 
 function displayScore() {
   questionBox.textContent = "All done!"
-  document.querySelector(".all-options").style.display = ""
+  // document.querySelector(".all-options").style.display = ""
 
   instructionsP.textContent = "Final Score: " + score +"/5"
   localStorage.setItem("Score", score)
@@ -98,7 +101,16 @@ function displayScore() {
   document.querySelector("form").appendChild(submitNameBtn)
 
   submitNameBtn.textContent = "Submit"
+
+  document.querySelector(".all-options").appendChild(playAgainBtn)
+  playAgainBtn.textContent = "Play Again"
+  playAgainBtn.setAttribute("style", "font-size: 20px")
 }
+
+playAgainBtn.addEventListener("click", function(){
+  startTimer()
+  quizQuestions()
+})
 
 submitNameBtn.addEventListener("click", function(event){
   event.preventDefault();
@@ -109,6 +121,9 @@ submitNameBtn.addEventListener("click", function(event){
     localStorage.setItem("playerName", playerNameInputLS)
   }
 
+  //get the user's score and getItem("playerNamer", )
+  //make a user object w/ score and name 
+  //do something to the object to make sure it can go into local storage. json.stringify before you place it into local storage. you parse it when you bring the object back. 
   
 })
 
