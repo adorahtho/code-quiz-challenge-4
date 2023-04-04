@@ -1,13 +1,12 @@
 var questionBox = document.querySelector("#question-box")
-
-var score = 0
-var questionCounter = 0
-
 var quizTimer = document.querySelector("#timer")
 var quizBox = document.querySelector(".main-quiz-box")
 var startButton = document.querySelector("#start-button")
 var instructionsP = document.querySelector(".instruction-p")
+var viewHighScores = document.querySelector(".view-high-scores")
 
+var score = 0
+var questionCounter = 0
 var timeLeft = 60
 
 var questions = [
@@ -52,7 +51,6 @@ function quizQuestions() {
     var button = document.createElement("button")
     button.textContent = option
     button.setAttribute("value", option)
-    button.setAttribute("style", "display: block; margin: auto; padding-left: 100px; padding-right: 100px; font-size: 20px; margin-bottom: 10px")
     button.addEventListener("click", function(event){
       console.log(event.target.value)
       if(event.target.value === currentQuestion.answer){
@@ -87,30 +85,22 @@ function displayScore() {
   questionBox.textContent = "All done!"
   // document.querySelector(".all-options").style.display = ""
 
+  playAgainBtn.textContent = "Play Again"
+  submitNameBtn.textContent = "Submit"
+  playerNameLabel.textContent = "Enter Player Name: "
   instructionsP.textContent = "Final Score: " + score +"/5"
+
   localStorage.setItem("Score", score)
 
   document.querySelector("#player-name").innerHTML = ""
   document.querySelector("#player-name").appendChild(playerNameForm)
-
   document.querySelector("form").appendChild(playerNameLabel)
-  playerNameLabel.textContent = "Enter Player Name: "
-
   document.querySelector("form").appendChild(playerNameInput)
-
   document.querySelector("form").appendChild(submitNameBtn)
-
-  submitNameBtn.textContent = "Submit"
-
   document.querySelector(".all-options").appendChild(playAgainBtn)
-  playAgainBtn.textContent = "Play Again"
-  playAgainBtn.setAttribute("style", "font-size: 20px")
-}
 
-playAgainBtn.addEventListener("click", function(){
-  startTimer()
-  quizQuestions()
-})
+  playAgainBtn.setAttribute("class", "playAgainBtn")
+}
 
 submitNameBtn.addEventListener("click", function(event){
   event.preventDefault();
@@ -126,6 +116,11 @@ submitNameBtn.addEventListener("click", function(event){
   //do something to the object to make sure it can go into local storage. json.stringify before you place it into local storage. you parse it when you bring the object back. 
   
 })
+
+function highScorePage(){
+  quizBox.textContent = ""
+  console.log("highscore clicked")
+}
 
 function startTimer() {
   var timerInterval = setInterval(function() {
@@ -144,11 +139,35 @@ function startTimer() {
   }, 1000)
 }
 
-startButton.addEventListener("click", function(){
-  startTimer()
-  quizQuestions()
-})
+// startButton.addEventListener("click", function(){
+//   startTimer()
+//   quizQuestions()
+// })
+
+// viewHighScores.addEventListener("click", function(){
+//   console.log("highscore clicked")
+// })
+
+// playAgainBtn.addEventListener("click", function(){
+//   startTimer()
+//   quizQuestions()
+// })
 
 //setItem to put the high score in
 //put in as an array of objects
 //getItem to get it out
+
+var startQuizBtn = document.querySelector(".start")
+
+var buttons = document.querySelectorAll("button");
+for(var i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener("click", function(){
+    console.log(this.innerText + " was clicked")
+    if(this === startQuizBtn) {
+      startTimer()
+      quizQuestions()
+    }else if (this === viewHighScores) {
+      highScorePage()
+    }
+  })
+}

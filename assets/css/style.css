@@ -86,6 +86,24 @@ button:hover {
   border: solid black;
 }
 
+div button {
+  display: block; 
+  margin: auto; 
+  width: 400px; 
+  font-size: 20px; 
+  margin-bottom: 10px
+}
+
+input {
+  width: 150px;
+  height: 25px;
+}
+
+form button, .playAgainBtn {
+  width: 150px;
+  border-radius: 25px;
+}
+
 .all-options {
   font-size: 26px;
   line-height: 40px;
@@ -102,7 +120,7 @@ button:hover {
   margin: auto;
   padding-top: 8px;
   font-size: 20px;
-  border-radius: 15px;
+  border-radius: 25px;
   border: 2px solid black;
 }
 
