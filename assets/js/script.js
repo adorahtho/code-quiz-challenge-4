@@ -78,7 +78,6 @@ var playerNameForm = document.createElement("form")
 var playerNameLabel = document.createElement("label")
 var playerNameInput = document.createElement("Input")
 var submitNameBtn = document.createElement("button")
-var viewHighScores = document.createElement("button")
 var playAgainBtn = document.createElement("button")
 
 function displayScore() {
@@ -105,11 +104,10 @@ function displayScore() {
 submitNameBtn.addEventListener("click", function(event){
   event.preventDefault();
 
-  var playerNameInputLS = playerNameInput.value
-  
-  if (playerNameInputLS === playerNameInput.value){
-    localStorage.setItem("playerName", playerNameInputLS)
-  }
+  var playerName = document.querySelector("input").value
+  var storedNames = []
+  storedNames.push(playerName)
+  localStorage.setItem("playerName", JSON.stringify(storedNames))
 
   //get the user's score and getItem("playerNamer", )
   //make a user object w/ score and name 
@@ -118,8 +116,8 @@ submitNameBtn.addEventListener("click", function(event){
 })
 
 function highScorePage(){
-  quizBox.textContent = ""
-  console.log("highscore clicked")
+  questionBox.textContent = "High Scores"
+
 }
 
 function startTimer() {
