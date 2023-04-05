@@ -104,6 +104,13 @@ form button, .playAgainBtn {
   border-radius: 25px;
 }
 
+div li {
+list-style: none;
+background-color: rgb(226, 43, 171);
+margin-bottom: 10px;
+font-weight: bold;
+}
+
 .all-options {
   font-size: 26px;
   line-height: 40px;

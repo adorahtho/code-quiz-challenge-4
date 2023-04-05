@@ -1,3 +1,4 @@
+//Variables
 var questionBox = document.querySelector("#question-box")
 var quizTimer = document.querySelector("#timer")
 var quizBox = document.querySelector(".main-quiz-box")
@@ -37,6 +38,25 @@ var questions = [
   }
 ]
 
+//Timer for the quiz. Starts at 60 seconds. Once time left is 5 seconds text will turn red and font size will increase to 18px. At 0 seconds the timer stops.
+function startTimer() {
+  var timerInterval = setInterval(function() {
+    timeLeft--;
+    if(timeLeft < 0) {
+      timeLeft = 0
+    }
+    quizTimer.textContent = "Timer: " + timeLeft;
+    if(timeLeft <= 5) {
+      quizTimer.setAttribute("style", "color: red; font-size: 18px")
+    }
+    if (timeLeft === 0) {
+      clearInterval (timerInterval);
+      displayScore()
+    }
+  }, 1000)
+}
+
+//Each question in the questions variable is displayed. A button is created for each option. When a button is clicked the score will increase by 1 if the selected button matches the currentQuestion.answer. If not, the time will decrease by 10 seconds then the next question will display. Once all the questions have been displayed the displayScore function will run.
 function quizQuestions() {
 
   startButton.style.display = "none"
@@ -74,90 +94,80 @@ function quizQuestions() {
   })
 }
 
-var playerNameForm = document.createElement("form")
-var playerNameLabel = document.createElement("label")
-var playerNameInput = document.createElement("Input")
-var submitNameBtn = document.createElement("button")
-var playAgainBtn = document.createElement("button")
-
+//New elements are created when the displayScore function runs to show the user that it's the end of the quiz. The final score is displayed with an input area to enter their name. When submitting name, the player name and score will display on page. Each player name and score item will be put into a string and then a JavaScript object by JSON.stringify and JSON.parse. Player name and score items will setItem to local storage and getItem to display to webpage. Player has option to play again or view high scores.
 function displayScore() {
-  questionBox.textContent = "All done!"
-  // document.querySelector(".all-options").style.display = ""
+  var playerNameForm = document.createElement("form")
+  var playerNameLabel = document.createElement("label")
+  var playerNameInput = document.createElement("Input")
+  var submitNameBtn = document.createElement("button")
 
-  playAgainBtn.textContent = "Play Again"
+  questionBox.textContent = "All done!"
   submitNameBtn.textContent = "Submit"
   playerNameLabel.textContent = "Enter Player Name: "
   instructionsP.textContent = "Final Score: " + score +"/5"
-
-  localStorage.setItem("Score", score)
 
   document.querySelector("#player-name").innerHTML = ""
   document.querySelector("#player-name").appendChild(playerNameForm)
   document.querySelector("form").appendChild(playerNameLabel)
   document.querySelector("form").appendChild(playerNameInput)
   document.querySelector("form").appendChild(submitNameBtn)
-  document.querySelector(".all-options").appendChild(playAgainBtn)
 
+  submitNameBtn.addEventListener("click", function(event){
+    event.preventDefault();
+
+    var playerName = document.querySelector("input").value
+    var playerObject = {playerName, score}
+    var storedNames = JSON.parse(localStorage.getItem("playerName")) || []
+    storedNames.push(playerObject)
+    localStorage.setItem("playerName", JSON.stringify(storedNames))
+
+    var nameAndScore = document.createElement("div")
+    nameAndScore.textContent = playerName + " " + score
+    document.querySelector(".all-options").appendChild(nameAndScore)
+  })
+  var playAgainBtn = document.createElement("button")
   playAgainBtn.setAttribute("class", "playAgainBtn")
+  playAgainBtn.textContent = "Play Again"
+  playAgainBtn.onclick= function(){
+    window.location.reload()
+  }
+  document.querySelector(".all-options").appendChild(playAgainBtn)
 }
 
-submitNameBtn.addEventListener("click", function(event){
-  event.preventDefault();
-
-  var playerName = document.querySelector("input").value
-  var storedNames = []
-  storedNames.push(playerName)
-  localStorage.setItem("playerName", JSON.stringify(storedNames))
-
-  //get the user's score and getItem("playerNamer", )
-  //make a user object w/ score and name 
-  //do something to the object to make sure it can go into local storage. json.stringify before you place it into local storage. you parse it when you bring the object back. 
-  
-})
-
+//The highScorePage function is used to show all the player names and their scores that have completed the quiz. These names and scores were pulled from local storage using a for loop that creates an "li" element to display the player's name and score.
 function highScorePage(){
   questionBox.textContent = "High Scores"
+  instructionsP.textContent = ""
+  document.querySelector(".all-options").innerHTML = ""
+  startButton.style.display = "none"
 
+  var storedNames = JSON.parse(localStorage.getItem("playerName")) || []
+
+  var ul = document.createElement("ul")
+  var highScoreList = document.querySelector(".instructions")
+  
+  for (var i = 0; i < storedNames.length; i++) {
+    var player = storedNames[i]
+    var li = document.createElement("li")
+    li.textContent = player.playerName + " " + player.score
+    ul.appendChild(li)
+  }
+
+  highScoreList.appendChild(ul)
+
+  //The "Go Back" button allows users to go back to the quiz question secions.
+  var goBackBtn = document.createElement("button")
+  goBackBtn.textContent="Go Back"
+  goBackBtn.onclick= function(){
+    window.location.reload()
+  }
+  highScoreList.appendChild(goBackBtn)
 }
 
-function startTimer() {
-  var timerInterval = setInterval(function() {
-    timeLeft--;
-    if(timeLeft < 0) {
-      timeLeft = 0
-    }
-    quizTimer.textContent = "Timer: " + timeLeft;
-    if(timeLeft <= 5) {
-      quizTimer.setAttribute("style", "color: red; font-size: 18px")
-    }
-    if (timeLeft === 0) {
-      clearInterval (timerInterval);
-      displayScore()
-    }
-  }, 1000)
-}
-
-// startButton.addEventListener("click", function(){
-//   startTimer()
-//   quizQuestions()
-// })
-
-// viewHighScores.addEventListener("click", function(){
-//   console.log("highscore clicked")
-// })
-
-// playAgainBtn.addEventListener("click", function(){
-//   startTimer()
-//   quizQuestions()
-// })
-
-//setItem to put the high score in
-//put in as an array of objects
-//getItem to get it out
-
+//The startQuiz button and viewHighScores button uses a for loop so the user can trigger which ever function they desire.
 var startQuizBtn = document.querySelector(".start")
+var buttons = document.querySelectorAll("button")
 
-var buttons = document.querySelectorAll("button");
 for(var i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener("click", function(){
     console.log(this.innerText + " was clicked")
